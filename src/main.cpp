@@ -1,53 +1,78 @@
 ﻿#include "raylib.h"
+#include "UI.h"
+
+enum GameState{
+    STATE_MENU,      
+    STATE_PLAYING,   
+    STATE_SETTINGS,  
+    STATE_HELP,     
+    STATE_EXIT     
+};
 
 int main() {
-    // 1. Khởi tạo cửa sổ
-    const int screenWidth = 800;
-    const int screenHeight = 600;
-    InitWindow(screenWidth, screenHeight, "Raylib Test - Bouncing Box");
 
-    SetTargetFPS(60); // Đảm bảo game chạy mượt 60 khung hình/giây
+    GameState currentState = STATE_MENU;
+    //Set up screen
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
+    InitWindow(screenWidth, screenHeight, "KONOHA CARO");
+    SetTargetFPS(60);
 
-    // --- KHAI BÁO BIẾN CHO "CỤC" HÌNH VUÔNG ---
-    float boxX = 350.0f;  // Tọa độ X ban đầu
-    float boxY = 250.0f;  // Tọa độ Y ban đầu
-    float boxSize = 60.0f; // Kích thước cục vuông (60x60 pixel)
+    
+    int btnWidth = 184;
+    int btnHeight = 84;
+    int spacing = 90;
+    float startX = (screenWidth - btnWidth) / 2.0f;
+    float startY =200.0f; 
 
-    // Tốc độ di chuyển (số pixel mỗi khung hình)
-    float speedX = 5.0f;
-    float speedY = 4.0f;
+    //Load Assets
+    GameAssets assets;
+    LoadGameAssets(assets);
+    
+    //Set up Menu Button
+    std::vector<Button> menuButtons = {
+        { { startX, startY, (float)btnWidth, (float)btnHeight }, "NEW GAME" },
+        { { startX, startY + spacing, (float)btnWidth, (float)btnHeight }, "LOAD GAME" },
+        { { startX, startY + spacing * 2, (float)btnWidth, (float)btnHeight }, "SETTINGS" },
+        { { startX, startY + spacing * 3, (float)btnWidth, (float)btnHeight }, "HELP" },
+        { { startX, startY + spacing * 4, (float)btnWidth, (float)btnHeight }, "EXIT" }
+    };
+ 
+    int selectedIndex = 0;
+    while (!WindowShouldClose() && currentState != STATE_EXIT) {
+        //Switch state in game
+        switch (currentState) {
+        case STATE_MENU:
+            if (IsKeyPressed(KEY_S)) {
+                selectedIndex++;
 
-    // 2. Vòng lặp game chính
-    while (!WindowShouldClose()) {
+                if (selectedIndex >= menuButtons.size()) {
+                    selectedIndex = 0;
+                }
+            }
+            if (IsKeyPressed(KEY_W)) {
+                selectedIndex--;
 
-        // --- PHẦN UPDATE: CẬP NHẬT TỌA ĐỘ TỪNG KHUNG HÌNH ---
-        boxX += speedX;
-        boxY += speedY;
-
-        // Xử lý va chạm: Nếu đụng mép màn hình trái/phải -> Đảo ngược tốc độ X
-        if ((boxX <= 0) || (boxX + boxSize >= screenWidth)) {
-            speedX *= -1.0f;
+                if (selectedIndex < 0) {
+                    selectedIndex = menuButtons.size() - 1;
+                }
+            }
+            if (IsKeyPressed(KEY_ENTER)) {
+                if (selectedIndex == 0) currentState = STATE_PLAYING;
+                else if (selectedIndex == 3) currentState = STATE_HELP;
+                else if (selectedIndex == 4) currentState = STATE_EXIT;
+            }
+            break;
         }
-        // Xử lý va chạm: Nếu đụng mép màn hình trên/dưới -> Đảo ngược tốc độ Y
-        if ((boxY <= 0) || (boxY + boxSize >= screenHeight)) {
-            speedY *= -1.0f;
-        }
-
-        // --- PHẦN DRAW: VẼ RA MÀN HÌNH ---
+        //Drawing
         BeginDrawing();
-
-        ClearBackground(RAYWHITE); // Xóa dấu vết cũ của khung hình trước
-
-        // Vẽ cục hình vuông màu đỏ
-        DrawRectangle((int)boxX, (int)boxY, (int)boxSize, (int)boxSize, MAROON);
-
-        // In dòng chữ thông báo
-        DrawText("Cuc mau do dang nhay qua nhay lai!", 200, 20, 20, LIGHTGRAY);
-
+        switch (currentState) {
+        case STATE_MENU:
+            DrawMainMenu(screenWidth, screenHeight, menuButtons, selectedIndex, assets);
+        }
         EndDrawing();
     }
 
-    // 3. Đóng cửa sổ, giải phóng bộ nhớ
     CloseWindow();
     return 0;
 }
