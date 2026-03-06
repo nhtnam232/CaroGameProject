@@ -8,7 +8,7 @@ struct Button {
 };
 
 
-void DrawMainMenu(int screenWidth, int screenHeight, std::vector<Button> menuButtons, int selectedIndex, const GameAssets& assets);
+void DrawMainMenu(int screenWidth, int screenHeight, int selectedIndex, const GameAssets& assets);
 
 
 #define UI_H

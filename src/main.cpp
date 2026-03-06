@@ -3,6 +3,7 @@
 
 enum GameState{
     STATE_MENU,      
+    STATE_LOAD,
     STATE_PLAYING,   
     STATE_SETTINGS,  
     STATE_HELP,     
@@ -18,25 +19,10 @@ int main() {
     InitWindow(screenWidth, screenHeight, "KONOHA CARO");
     SetTargetFPS(60);
 
-    
-    int btnWidth = 184;
-    int btnHeight = 84;
-    int spacing = 90;
-    float startX = (screenWidth - btnWidth) / 2.0f;
-    float startY =200.0f; 
 
     //Load Assets
     GameAssets assets;
-    LoadGameAssets(assets);
-    
-    //Set up Menu Button
-    std::vector<Button> menuButtons = {
-        { { startX, startY, (float)btnWidth, (float)btnHeight }, "NEW GAME" },
-        { { startX, startY + spacing, (float)btnWidth, (float)btnHeight }, "LOAD GAME" },
-        { { startX, startY + spacing * 2, (float)btnWidth, (float)btnHeight }, "SETTINGS" },
-        { { startX, startY + spacing * 3, (float)btnWidth, (float)btnHeight }, "HELP" },
-        { { startX, startY + spacing * 4, (float)btnWidth, (float)btnHeight }, "EXIT" }
-    };
+    LoadGameAssets(assets);    
  
     int selectedIndex = 0;
     while (!WindowShouldClose() && currentState != STATE_EXIT) {
@@ -44,21 +30,15 @@ int main() {
         switch (currentState) {
         case STATE_MENU:
             if (IsKeyPressed(KEY_S)) {
-                selectedIndex++;
-
-                if (selectedIndex >= menuButtons.size()) {
-                    selectedIndex = 0;
-                }
+                selectedIndex = (selectedIndex + 1) % 5;
             }
             if (IsKeyPressed(KEY_W)) {
-                selectedIndex--;
-
-                if (selectedIndex < 0) {
-                    selectedIndex = menuButtons.size() - 1;
-                }
+                selectedIndex = (selectedIndex - 1 + 5) % 5;
             }
             if (IsKeyPressed(KEY_ENTER)) {
                 if (selectedIndex == 0) currentState = STATE_PLAYING;
+                else if (selectedIndex == 1) currentState = STATE_LOAD;
+                else if (selectedIndex == 2) currentState = STATE_SETTINGS;
                 else if (selectedIndex == 3) currentState = STATE_HELP;
                 else if (selectedIndex == 4) currentState = STATE_EXIT;
             }
@@ -68,7 +48,7 @@ int main() {
         BeginDrawing();
         switch (currentState) {
         case STATE_MENU:
-            DrawMainMenu(screenWidth, screenHeight, menuButtons, selectedIndex, assets);
+            DrawMainMenu(screenWidth, screenHeight, selectedIndex, assets);
         }
         EndDrawing();
     }

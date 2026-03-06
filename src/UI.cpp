@@ -1,8 +1,21 @@
 ﻿#include"UI.h"
 
 
-void DrawMainMenu(int screenWidth, int screenHeight, std::vector<Button> menuButtons, int selectedIndex, const GameAssets& assets) {
+void DrawMainMenu(int screenWidth, int screenHeight, int selectedIndex, const GameAssets& assets) {
 
+    //Set up buttons
+    int btnWidth = 184;
+    int btnHeight = 84;
+    int spacing = 90;
+    float startX = (screenWidth - btnWidth) / 2.0f;
+    float startY = 200.0f;
+    std::vector<Button> menuButtons = {
+        { { startX, startY, (float)btnWidth, (float)btnHeight }, "NEW GAME" },
+        { { startX, startY + spacing, (float)btnWidth, (float)btnHeight }, "LOAD GAME" },
+        { { startX, startY + spacing * 2, (float)btnWidth, (float)btnHeight }, "SETTINGS" },
+        { { startX, startY + spacing * 3, (float)btnWidth, (float)btnHeight }, "HELP" },
+        { { startX, startY + spacing * 4, (float)btnWidth, (float)btnHeight }, "EXIT" }
+    };
     //Fix Background
     Rectangle sourceRec = { 0.0f, 0.0f, (float)assets.bgMainMenu.width, (float)assets.bgMainMenu.height };
     Rectangle destRec = { 0.0f, 0.0f, (float)screenWidth, (float)screenHeight };
