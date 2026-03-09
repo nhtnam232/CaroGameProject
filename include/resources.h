@@ -7,6 +7,7 @@ struct GameAssets {
     Texture2D btnNormal;
     Texture2D btnPressed;
     Font gameFont;
+    Texture2D gameLogo;
     //More resources
 };
 
