@@ -20,6 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\resources.cpp" />
+    <ClCompile Include="src\UI.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\resources.h" />
+    <ClInclude Include="include\UI.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -79,7 +85,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -96,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\TLHT\CSLT__2\Project\CaroGame\Raylib\raylib-5.5_win64_msvc16\raylib-5.5_win64_msvc16\include;$(ProjectDir)include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

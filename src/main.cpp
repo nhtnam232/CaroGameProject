@@ -1,53 +1,60 @@
 ﻿#include "raylib.h"
+#include "UI.h"
+
+enum GameState{
+    STATE_MENU,      
+    STATE_LOAD,
+    STATE_PLAYING,   
+    STATE_SETTINGS,  
+    STATE_HELP,     
+    STATE_EXIT,
+    STATE_ABOUT
+};
 
 int main() {
-    // 1. Khởi tạo cửa sổ
-    const int screenWidth = 800;
-    const int screenHeight = 600;
-    InitWindow(screenWidth, screenHeight, "Raylib Test - Bouncing Box");
 
-    SetTargetFPS(60); // Đảm bảo game chạy mượt 60 khung hình/giây
+    GameState currentState = STATE_MENU;
+    //Set up screen
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
+    InitWindow(screenWidth, screenHeight, "CARO GAME");
+    SetTargetFPS(60);
 
-    // --- KHAI BÁO BIẾN CHO "CỤC" HÌNH VUÔNG ---
-    float boxX = 350.0f;  // Tọa độ X ban đầu
-    float boxY = 250.0f;  // Tọa độ Y ban đầu
-    float boxSize = 60.0f; // Kích thước cục vuông (60x60 pixel)
 
-    // Tốc độ di chuyển (số pixel mỗi khung hình)
-    float speedX = 5.0f;
-    float speedY = 4.0f;
-
-    // 2. Vòng lặp game chính
-    while (!WindowShouldClose()) {
-
-        // --- PHẦN UPDATE: CẬP NHẬT TỌA ĐỘ TỪNG KHUNG HÌNH ---
-        boxX += speedX;
-        boxY += speedY;
-
-        // Xử lý va chạm: Nếu đụng mép màn hình trái/phải -> Đảo ngược tốc độ X
-        if ((boxX <= 0) || (boxX + boxSize >= screenWidth)) {
-            speedX *= -1.0f;
+    //Load Assets
+    GameAssets assets;
+    LoadGameAssets(assets);    
+ 
+    int selectedIndex = 0;
+    while (!WindowShouldClose() && currentState != STATE_EXIT) {
+        //Switch state in game
+        switch (currentState) {
+        case STATE_MENU:
+            if (IsKeyPressed(KEY_S)) {
+                selectedIndex = (selectedIndex + 1) % 6;
+            }
+            if (IsKeyPressed(KEY_W)) {
+                selectedIndex = (selectedIndex - 1 + 6) % 6;
+            }
+            if (IsKeyPressed(KEY_ENTER)) {
+                if (selectedIndex == 0) currentState = STATE_PLAYING;
+                else if (selectedIndex == 1) currentState = STATE_LOAD;
+                else if (selectedIndex == 2) currentState = STATE_SETTINGS;
+                else if (selectedIndex == 3) currentState = STATE_HELP;
+                else if (selectedIndex == 4) currentState = STATE_EXIT;
+                else if (selectedIndex == 5) currentState = STATE_ABOUT;
+            }
+            break;
         }
-        // Xử lý va chạm: Nếu đụng mép màn hình trên/dưới -> Đảo ngược tốc độ Y
-        if ((boxY <= 0) || (boxY + boxSize >= screenHeight)) {
-            speedY *= -1.0f;
-        }
-
-        // --- PHẦN DRAW: VẼ RA MÀN HÌNH ---
+        //Drawing
         BeginDrawing();
-
-        ClearBackground(RAYWHITE); // Xóa dấu vết cũ của khung hình trước
-
-        // Vẽ cục hình vuông màu đỏ
-        DrawRectangle((int)boxX, (int)boxY, (int)boxSize, (int)boxSize, MAROON);
-
-        // In dòng chữ thông báo
-        DrawText("Cuc mau do dang nhay qua nhay lai!", 200, 20, 20, LIGHTGRAY);
-
+        switch (currentState) {
+        case STATE_MENU:
+            DrawMainMenu(screenWidth, screenHeight, selectedIndex, assets);
+        }
         EndDrawing();
     }
 
-    // 3. Đóng cửa sổ, giải phóng bộ nhớ
     CloseWindow();
     return 0;
 }
