@@ -1,4 +1,4 @@
-﻿#include "raylib.h"
+#include "raylib.h"
 #include "UI.h"
 
 enum GameState {
@@ -18,20 +18,20 @@ int main() {
     const int screenHeight = 720;
     InitWindow(screenWidth, screenHeight, "CARO GAME");
     SetTargetFPS(60);
-    InitAudioDevice(); //Init audio
+    InitAudioDevice();
 
     // Load Assets
     GameAssets assets;
     LoadGameAssets(assets);
 
-    // Init default setting
+    // Khởi tạo settings mặc định
     GameSettings gameSettings;
     gameSettings.musicVolume = 0.5f;
     gameSettings.sfxVolume = 0.5f;
     gameSettings.isMusicMuted = false;
     gameSettings.isSfxMuted = false;
 
-    // Playing background music
+    // Phát nhạc nền
     PlaySound(assets.bgMusic);
 
     int selectedIndex = 0;
@@ -39,10 +39,12 @@ int main() {
     bool backToMenu = false;
 
     while (!WindowShouldClose() && currentState != STATE_EXIT) {
+        // Loop nhạc nền thủ công
         if (!IsSoundPlaying(assets.bgMusic) && !gameSettings.isMusicMuted) {
             PlaySound(assets.bgMusic);
         }
 
+        // ── Xử lý input theo từng state ──
         if (currentState == STATE_MENU) {
             if (IsKeyPressed(KEY_S)) {
                 selectedIndex = (selectedIndex + 1) % 6;
@@ -54,7 +56,7 @@ int main() {
             }
             if (IsKeyPressed(KEY_ENTER)) {
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
-                if (selectedIndex == 0) currentState = STATE_PLAYING;
+                if (selectedIndex == 0)      currentState = STATE_PLAYING;
                 else if (selectedIndex == 1) currentState = STATE_LOAD;
                 else if (selectedIndex == 2) currentState = STATE_SETTINGS;
                 else if (selectedIndex == 3) currentState = STATE_HELP;
@@ -63,25 +65,27 @@ int main() {
             }
         }
         else if (currentState == STATE_SETTINGS) {
+            // W/S điều hướng 3 options: 0=Music, 1=SFX, 2=Back
             if (IsKeyPressed(KEY_S)) {
-                settingsSelectedIndex = (settingsSelectedIndex + 1) % 2;
+                settingsSelectedIndex = (settingsSelectedIndex + 1) % 3;
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
             if (IsKeyPressed(KEY_W)) {
-                settingsSelectedIndex = (settingsSelectedIndex - 1 + 2) % 2;
+                settingsSelectedIndex = (settingsSelectedIndex - 1 + 3) % 3;
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
 
-            Vector2 mousePoint = GetMousePosition();
-            bool mousePressed = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
-            UpdateSettings(gameSettings, settingsSelectedIndex, mousePoint, mousePressed);
+            // Áp dụng âm lượng realtime
+            SetSoundVolume(assets.bgMusic,
+                gameSettings.isMusicMuted ? 0.0f : gameSettings.musicVolume);
+            SetSoundVolume(assets.clickSound,
+                gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
+            SetSoundVolume(assets.moveSound,
+                gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
+            SetSoundVolume(assets.winSound,
+                gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
 
-            //Using audio
-            SetSoundVolume(assets.bgMusic, gameSettings.isMusicMuted ? 0.0f : gameSettings.musicVolume);
-            SetSoundVolume(assets.clickSound, gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
-            SetSoundVolume(assets.moveSound, gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
-            SetSoundVolume(assets.winSound, gameSettings.isSfxMuted ? 0.0f : gameSettings.sfxVolume);
-
+            // Xử lý mute/unmute nhạc nền
             if (gameSettings.isMusicMuted && IsSoundPlaying(assets.bgMusic)) {
                 StopSound(assets.bgMusic);
             }
@@ -89,22 +93,21 @@ int main() {
                 PlaySound(assets.bgMusic);
             }
         }
-
-        // Drawing
         BeginDrawing();
         ClearBackground(BLACK);
 
-        // Drawing for each state
         switch (currentState) {
         case STATE_MENU:
             DrawMainMenu(screenWidth, screenHeight, selectedIndex, assets);
             break;
 
         case STATE_SETTINGS:
-            DrawSettingsMenu(screenWidth, screenHeight, gameSettings, assets, settingsSelectedIndex, backToMenu);
+            DrawSettingsMenu(screenWidth, screenHeight, gameSettings, assets,
+                settingsSelectedIndex, backToMenu);
             if (backToMenu) {
                 currentState = STATE_MENU;
                 backToMenu = false;
+                settingsSelectedIndex = 0;
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
             break;
@@ -113,10 +116,9 @@ int main() {
         case STATE_LOAD:
         case STATE_HELP:
         case STATE_ABOUT:
-            // Comming soon
             DrawText("Coming soon...", screenWidth / 2 - 100, screenHeight / 2, 30, WHITE);
-            DrawText("Press ESC to return to menu", screenWidth / 2 - 150, screenHeight / 2 + 50, 20, GRAY);
-
+            DrawText("Press ESC to return to menu",
+                screenWidth / 2 - 150, screenHeight / 2 + 50, 20, GRAY);
             if (IsKeyPressed(KEY_ESCAPE)) {
                 currentState = STATE_MENU;
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
@@ -130,7 +132,6 @@ int main() {
         EndDrawing();
     }
 
-    // Cleaning
     UnloadGameAssets(assets);
     CloseAudioDevice();
     CloseWindow();
