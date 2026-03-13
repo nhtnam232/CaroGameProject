@@ -1,18 +1,36 @@
 #ifndef RESOURCES_H
+#define RESOURCES_H
 #include "raylib.h"
 
-
 struct GameAssets {
-    Texture2D bgMainMenu; 
+    // Image assets
+    Texture2D bgMainMenu;
     Texture2D btnNormal;
     Texture2D btnPressed;
     Font gameFont;
     Texture2D gameLogo;
-    //More resources
+
+    // Settings assets
+    Texture2D sliderBar;
+    Texture2D sliderKnob;
+    Texture2D soundIcon;
+    Texture2D musicIcon;
+
+    // Audio assets
+    Sound bgMusic;
+    Sound clickSound;
+    Sound moveSound;
+    Sound winSound;
+};
+
+struct GameSettings {
+    float musicVolume;
+    float sfxVolume;
+    bool isMusicMuted;
+    bool isSfxMuted;
 };
 
 void LoadGameAssets(GameAssets& assets);
 void UnloadGameAssets(GameAssets& assets);
 
-#define RESOURCES_H
-#endif // !RESOURCES_H
+#endif // RESOURCES_H

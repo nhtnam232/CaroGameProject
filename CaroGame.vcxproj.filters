@@ -18,10 +18,13 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI.cpp">
+    <ClCompile Include="src\MenuPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SettingPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

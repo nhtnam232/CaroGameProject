@@ -21,7 +21,8 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\resources.cpp" />
-    <ClCompile Include="src\UI.cpp" />
+    <ClCompile Include="src\SettingPage.cpp" />
+    <ClCompile Include="src\MenuPage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resources.h" />
