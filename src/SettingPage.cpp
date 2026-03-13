@@ -7,7 +7,7 @@
 Color COLOR(unsigned char r, unsigned char g, unsigned char b) {
     Color color;
     color.r = r;
-    color.g = g;
+    color.g = g;;;;;;;;;
     color.b = b;
     color.a = 255;
     return color;
@@ -238,4 +238,5 @@ void DrawSettingsMenu(int screenWidth, int screenHeight, GameSettings& settings,
     Vector2 helpPos = { screenWidth / 2.0f - 220.0f, vintageFrame.y + vintageFrame.height + 20.0f };
     DrawTextEx(assets.gameFont, "Use W/S to switch - Click and drag slider",
         helpPos, 18, 1, Fade(WHITE, 0.7f));
+
 }
