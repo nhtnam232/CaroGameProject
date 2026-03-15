@@ -22,6 +22,7 @@
     <ClCompile Include="src\AboutPage.cpp" />
     <ClCompile Include="src\HelpPage.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Newgame.cpp" />
     <ClCompile Include="src\resources.cpp" />
     <ClCompile Include="src\SettingPage.cpp" />
     <ClCompile Include="src\MenuPage.cpp" />

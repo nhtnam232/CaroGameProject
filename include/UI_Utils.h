@@ -9,6 +9,14 @@ struct Button {
     Rectangle rect;
     const char* text;
 };
+
+struct Slider {
+    Rectangle barRect;
+    Rectangle knobRect;
+    float value;
+    bool isDragging;
+    const char* label;
+};
 //Color theme
 //COLOR helpers
 Color COLOR(unsigned char r, unsigned char g, unsigned char b);

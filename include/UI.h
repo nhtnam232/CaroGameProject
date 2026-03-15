@@ -1,6 +1,13 @@
 ﻿#ifndef UI_H
-
+#define UI_H
+#include "raylib.h"
+#include <vector>
+#include "resources.h"
 #include"UI_Utils.h"
+
+
+
+
 
 
 void DrawMainMenu(int screenWidth, int screenHeight, int selectedIndex, const GameAssets& assets);
@@ -11,6 +18,4 @@ void DrawHelpMenu(int screenWidth, int screenHeight, const GameAssets& assets, i
 
 
 
-
-#define UI_H
-#endif 
+#endif // UI_H
