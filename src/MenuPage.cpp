@@ -59,4 +59,11 @@ void DrawMainMenu(int screenWidth, int screenHeight, int selectedIndex, const Ga
         Color textColor = isSelected ? RAYWHITE : BLACK;
         DrawTextEx(assets.gameFont, menuButtons[i].text, { textX, textY }, fontSize, spacing, textColor);
     }
+
+    // Hint Bar
+    const char* hint = "W/S: Navigate  Enter: Select";
+    float hintY = 600.0f;
+    float hintW = 300.0f;
+    float hintX = screenWidth / 2.0f - hintW / 2.0f;
+    DrawHint(screenWidth, screenHeight, hintX, hintY, hintW, hint, assets);
 }
