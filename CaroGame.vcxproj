@@ -19,14 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AboutPage.cpp" />
+    <ClCompile Include="src\HelpPage.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\resources.cpp" />
     <ClCompile Include="src\SettingPage.cpp" />
     <ClCompile Include="src\MenuPage.cpp" />
+    <ClCompile Include="src\UI_Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\resources.h" />
     <ClInclude Include="include\UI.h" />
+    <ClInclude Include="include\UI_Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
