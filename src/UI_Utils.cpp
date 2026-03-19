@@ -119,12 +119,10 @@ void DrawSpeakerIcon(float x, float y, Color c, float vol) {
 }
 
 //Side scroll banner
-void DrawSideBanner(float x, float topY, float botY,
-    bool flipText, const GameAssets& assets)
+void DrawSideBanner(float x, float topY, float botY, const GameAssets& assets)
 {
     float bw = 34.0f;
     float bx = x - bw / 2;
-    float time = (float)GetTime();
 
     // Body
     DrawRectangleRounded({ bx, topY, bw, botY - topY }, 0.3f, 8, COLORA(55, 27, 7, 170));
@@ -149,20 +147,6 @@ void DrawSideBanner(float x, float topY, float botY,
         float ly = topY + (botY - topY) * i / 5.0f;
         DrawLineEx({ bx + 4, ly }, { bx + bw - 4, ly }, 1.0f, COLORA(195, 135, 38, 75));
         DrawCircle((int)x, (int)ly, 3, COLORA(215, 160, 30, 175));
-    }
-
-    // Vertical text
-    float alpha = 0.38f + 0.18f * sinf(time * 1.0f);
-    Color tc = Fade(COLOR(255, 205, 75), alpha);
-    const char* txt = "CARO";
-    int len = (int)strlen(txt);
-    float startY2 = flipText ? botY - 22 : topY + 20;
-    float dir = flipText ? -1.0f : 1.0f;
-    for (int i = 0; i < len; i++) {
-        char ch[2] = { txt[i], '\0' };
-        Vector2 sz = MeasureTextEx(assets.gameFont, ch, 16, 1);
-        DrawTextEx(assets.gameFont, ch,
-            { x - sz.x / 2, startY2 + dir * i * 22.0f }, 16, 1, tc);
     }
 }
 
@@ -225,13 +209,12 @@ Rectangle DrawBaseMenu(int screenWidth, int screenHeight, const GameAssets& asse
     DrawRectangle(0, 0, screenWidth, screenHeight, ColorShadow);
 
     // Screen border and corner
-    Color goldDim = ColorBronzeAlpha;
     DrawRectangleLinesEx({ 6, 6, (float)screenWidth - 12, (float)screenHeight - 12 }, 2.0f, ColorBronzeAlpha);
     DrawRectangleLinesEx({ 12, 12, (float)screenWidth - 24, (float)screenHeight - 24 }, 1.0f, ColorBronzeAlpha);
-    DrawCornerOrnament(18, 18, 1, 1, goldDim);
-    DrawCornerOrnament(screenWidth - 18, 18, -1, 1, goldDim);
-    DrawCornerOrnament(18, screenHeight - 18, 1, -1, goldDim);
-    DrawCornerOrnament(screenWidth - 18, screenHeight - 18, -1, -1, goldDim);
+    DrawCornerOrnament(18, 18, 1, 1, ColorBronzeAlpha);
+    DrawCornerOrnament(screenWidth - 18, 18, -1, 1, ColorBronzeAlpha);
+    DrawCornerOrnament(18, screenHeight - 18, 1, -1, ColorBronzeAlpha);
+    DrawCornerOrnament(screenWidth - 18, screenHeight - 18, -1, -1, ColorBronzeAlpha);
 
     // Panel dimensions
     float pw = 780.0f, ph = 490.0f;
@@ -242,12 +225,11 @@ Rectangle DrawBaseMenu(int screenWidth, int screenHeight, const GameAssets& asse
     float bannerX1 = px - 55.0f;
     float bannerX2 = px + pw + 55.0f;
     float bTop = py + 12.0f, bBot = py + ph - 12.0f;
-    DrawSideBanner(bannerX1, bTop, bBot, false, assets);
-    DrawSideBanner(bannerX2, bTop, bBot, true, assets);
+    DrawSideBanner(bannerX1, bTop, bBot, assets);
+    DrawSideBanner(bannerX2, bTop, bBot, assets);
 
-    // Panel fill & Subtle top highlight
+    // Panel fill
     DrawRectangleRounded({ px, py, pw, ph }, 0.07f, 8, ColorBrownDark);
-    /*DrawRectangleRounded({ px, py, pw, ph * 0.42f }, 0.07f, 8, ColorHighlight);*/
 
 
     // Dashed connectors banner → panel

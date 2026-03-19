@@ -10,11 +10,6 @@ struct GameAssets {
     Font gameFont;
     Texture2D gameLogo;
 
-    // Settings assets
-    Texture2D sliderBar;
-    Texture2D sliderKnob;
-    Texture2D soundIcon;
-    Texture2D musicIcon;
 
     // Audio assets
     Sound bgMusic;

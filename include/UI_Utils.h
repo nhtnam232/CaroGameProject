@@ -10,13 +10,6 @@ struct Button {
     const char* text;
 };
 
-struct Slider {
-    Rectangle barRect;
-    Rectangle knobRect;
-    float value;
-    bool isDragging;
-    const char* label;
-};
 //Color theme
 //COLOR helpers
 Color COLOR(unsigned char r, unsigned char g, unsigned char b);
@@ -54,7 +47,7 @@ void DrawMusicNoteIcon(float x, float y, Color c);
 //Speaker icon
 void DrawSpeakerIcon(float x, float y, Color c, float vol);
 //Side scroll banner
-void DrawSideBanner(float x, float topY, float botY, bool flipText, const GameAssets& assets);
+void DrawSideBanner(float x, float topY, float botY, const GameAssets& assets);
 //Screen corner ornament
 void DrawCornerOrnament(float x, float y, float dx, float dy, Color c);
 //Draw Member Card

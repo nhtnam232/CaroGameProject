@@ -8,11 +8,6 @@ void LoadGameAssets(GameAssets& assets) {
     assets.gameFont = LoadFont("resources\\font\\Jersey10-Regular.ttf");
     assets.gameLogo = LoadTexture("resources\\logo.png");
 
-    // Settings assets
-    assets.sliderBar = LoadTexture("resources\\slider_bar.png");
-    assets.sliderKnob = LoadTexture("resources\\slider_knob.png");
-    assets.soundIcon = LoadTexture("resources\\sound_icon.png");
-    assets.musicIcon = LoadTexture("resources\\music_icon.png");
 
     // Audio assets
     assets.bgMusic = LoadSound("resources\\audio\\bg_music.wav");
@@ -42,10 +37,6 @@ void UnloadGameAssets(GameAssets& assets) {
     UnloadTexture(assets.btnPressed);
     UnloadFont(assets.gameFont);
     UnloadTexture(assets.gameLogo);
-    UnloadTexture(assets.sliderBar);
-    UnloadTexture(assets.sliderKnob);
-    UnloadTexture(assets.soundIcon);
-    UnloadTexture(assets.musicIcon);
 
     // Unload audio
     UnloadSound(assets.bgMusic);
