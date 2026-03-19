@@ -16,7 +16,6 @@ void DrawSettingsMenu(int screenWidth, int screenHeight, GameSettings& settings,
     Vector2 mouse = GetMousePosition();
     bool clicked = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     bool held = IsMouseButtonDown(MOUSE_LEFT_BUTTON);
-    float time = (float)GetTime();
 
     //PANEL DIMENSIONS
     float pw = 780.0f, ph = 490.0f;
@@ -59,8 +58,8 @@ void DrawSettingsMenu(int screenWidth, int screenHeight, GameSettings& settings,
         if (active) {
             DrawRectangleRoundedLines({ rowX - 2, ry - 2, rowW + 4, rowH + 4 }, 0.12f, 8,
                 COLORA(252, 175, 0, 58));
-            DrawRectangleRoundedLines({ rowX - 4, ry - 4, rowW + 8, rowH + 8 }, 0.12f, 8,
-                COLORA(252, 155, 0, 22));
+           /* DrawRectangleRoundedLines({ rowX - 4, ry - 4, rowW + 8, rowH + 8 }, 0.12f, 8,
+                COLORA(252, 155, 0, 22));*/
         }
         };
 
@@ -130,8 +129,9 @@ void DrawSettingsMenu(int screenWidth, int screenHeight, GameSettings& settings,
     // Arrow
     DrawTriangle(
         { rowX + 32, r3y + rowH / 2 },
+        { rowX + 49, r3y + rowH / 2 + 12 },
         { rowX + 49, r3y + rowH / 2 - 12 },
-        { rowX + 49, r3y + rowH / 2 + 12 }, backIc);
+        backIc);
     DrawRectangle((int)(rowX + 45), (int)(r3y + rowH / 2 - 5), 16, 10, backIc);
     // Text
     const char* btxt = "BACK TO MENU";

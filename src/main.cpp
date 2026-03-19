@@ -60,7 +60,7 @@ int main() {
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
             else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
-                aboutSelectedIndex = (aboutSelectedIndex - 1 + 1) % 2;
+                aboutSelectedIndex = (aboutSelectedIndex - 1 + 2) % 2;
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
             else if (IsKeyPressed(KEY_ESCAPE)) {
@@ -83,8 +83,19 @@ int main() {
                 if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
             }
         }
+        else if (currentState == STATE_LOAD) {
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                currentState = STATE_MENU;
+                if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
+            }
+        }
+        else if (currentState == STATE_PLAYING) {
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                currentState = STATE_MENU;
+                if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
+            }
+        }
         else if (currentState == STATE_EXIT) {
-            //Quit while loop to clear the memory and end the program
             break;
         }
 
