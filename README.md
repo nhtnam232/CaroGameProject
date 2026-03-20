@@ -19,6 +19,7 @@ git clone https://github.com/nhtnam232/CaroGameProject.git
 4. Include Directories
 - Go to C/C++ -> General -> Additional Include Directories
 - Add the path to your Raylib ***include*** folder (e.g., C:\raylib\include).
+- Add the path to the ***include*** directory in this repository
 5. Library Directories
 - Go to Linker -> General -> Additional Library Directories.
 - Add the path to your Raylib ***lib*** folder (e.g., C:\raylib\lib).
