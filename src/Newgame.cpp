@@ -335,7 +335,9 @@ void DrawStepEnterName(int screenWidth, int screenHeight, const GameAssets& asse
     DrawTextEx(assets.gameFont, "[TAB] Switch Player", { boxX, box2Y + 90 }, 16, 1, ColorGoldAlpha);
     DrawTextEx(assets.gameFont, "Maximum number of characters: 15", { boxX, box2Y + 110 }, 16, 1, ColorGoldAlpha);
 }
-void DrawCaroBoard(const int board[BOARD_SIZE][BOARD_SIZE], float boardX, float boardY) {
+void DrawCaroBoard(const MatchManager& match, float boardX, float boardY)
+{
+    const int (*board)[15] = match.board;
     // Calculate the total grid size (15 cells * cell size)
     float gridWidth = (float)BOARD_SIZE * CELL;
     float gridHeight = (float)BOARD_SIZE * CELL;
@@ -364,22 +366,35 @@ void DrawCaroBoard(const int board[BOARD_SIZE][BOARD_SIZE], float boardX, float 
         for (int y = 0; y < BOARD_SIZE; y++) {
             if (board[x][y] == 0) continue;
 
-            // Offset by half a cell to reach the center: (x * CELL) + (CELL / 2)
             float ppx = oX + (float)x * CELL + (CELL / 2.0f);
             float ppy = oY + (float)y * CELL + (CELL / 2.0f);
-            bool isBlack = (board[x][y] == 1);
+            bool isBlack = (match.board[x][y] == 1);
 
-            // Piece shadow
-            DrawCircle((int)ppx + 2, (int)ppy + 2, 13, Color{ 0, 0, 0, 75 });
+            // Flashing logic for winning pieces
+            float alpha = 1.0f;
+            if (match.isMatchOver) {
+                for (int k = 0; k < 5; k++) {
+                    if ((int)match.flashingPieces[k].x == x && (int)match.flashingPieces[k].y == y) {
+                        alpha = 0.5f + 0.5f * sinf(match.winTimer * 12.0f);
+                        break;
+                    }
+                }
+            }
 
-            // Piece body
-            DrawCircle((int)ppx, (int)ppy, 13, isBlack ? Color{ 26, 26, 26, 255 } : Color{ 236, 236, 236, 255 });
+            // Piece shadow 
+            DrawCircle((int)ppx + 2, (int)ppy + 2, 13, Fade(Color{ 0, 0, 0, 75 }, alpha));
+
+            // Piece body 
+            Color bodyColor = isBlack ? Color{ 26, 26, 26, 255 } : Color{ 236, 236, 236, 255 };
+            DrawCircle((int)ppx, (int)ppy, 13, Fade(bodyColor, alpha));
 
             // Highlight shine
-            DrawCircle((int)ppx - 4, (int)ppy - 4, 4, isBlack ? Color{ 86, 86, 86, 148 } : Color{ 255, 255, 255, 195 });
+            Color shineColor = isBlack ? Color{ 86, 86, 86, 148 } : Color{ 255, 255, 255, 195 };
+            DrawCircle((int)ppx - 4, (int)ppy - 4, 4, Fade(shineColor, alpha));
 
-            // Outline
-            DrawCircleLines((int)ppx, (int)ppy, 13, isBlack ? Color{ 6, 6, 6, 255 } : Color{ 175, 175, 175, 255 });
+            // Outline 
+            Color outlineColor = isBlack ? Color{ 6, 6, 6, 255 } : Color{ 175, 175, 175, 255 };
+            DrawCircleLines((int)ppx, (int)ppy, 13, Fade(outlineColor, alpha));
         }
     }
 }
@@ -499,7 +514,7 @@ void DrawMatchScreen(int screenWidth, int screenHeight, const MatchManager& matc
     float bpX = screenWidth / 2.0f - bpW / 2.0f;
     float bpY = screenHeight / 2.0f - bpH / 2.0f;
 
-    DrawCaroBoard(match.board, bpX, bpY);
+    DrawCaroBoard(match, bpX, bpY);
 
     // Render the active player's blinking cursor
     // Need to recalculate grid origin (oX, oY) to position the cursor correctly

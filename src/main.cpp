@@ -21,6 +21,9 @@ int main() {
     bool startMatch = false;
     std::vector<PlayerInfo> players = std::vector<PlayerInfo>(2);
     MatchManager match;
+    for (int i = 0; i < 5; i++) {
+        match.flashingPieces[i] = { -1.0f, -1.0f };
+    }
     while (!WindowShouldClose() && currentState != STATE_EXIT) {
         if (!IsSoundPlaying(assets.bgMusic) && !gameSettings.isMusicMuted) PlaySound(assets.bgMusic);
 
@@ -100,16 +103,21 @@ int main() {
             else {
                 // Increment timer for the animated victory text
                 match.winTimer += GetFrameTime();
-                if (IsKeyPressed(KEY_ENTER)) {
-                    memset(match.board, 0, sizeof(match.board)); // Clear board array
-                    match.isMatchOver = false;
-                    match.winner = 0;
-                    match.winTimer = 0.0f;
-                    match.currentPlayer = 1;
-                    match.cursorX = 7;
-                    match.cursorY = 7;
 
-                    if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
+                if (match.winTimer >= 2.0f) {
+                    if (IsKeyPressed(KEY_ENTER)) {
+                        memset(match.board, 0, sizeof(match.board)); // Clear board array
+                        match.isMatchOver = false;
+                        match.winner = 0;
+                        match.winTimer = 0.0f;
+                        match.currentPlayer = 1;
+                        match.cursorX = 7;
+                        match.cursorY = 7;
+                        for (int i = 0; i < 5; i++) {
+                            match.flashingPieces[i] = { -1.0f, -1.0f };
+                        }
+                        if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
+                    }
                 }
                 if (IsKeyPressed(KEY_ESCAPE)) {
                     backToMenu = true;
@@ -145,7 +153,7 @@ int main() {
             DrawMatchScreen(SW, SH, match, assets, players);
 
             // Overlay the winner banner when the game ends
-            if (match.isMatchOver && match.winner > 0) {
+            if (match.isMatchOver && match.winner > 0 && match.winTimer >= 2.0f) {
                 // Dim the background slightly to focus on the announcement
                 DrawRectangle(0, 0, SW, SH, Fade(BLACK, 0.4f));
 
@@ -155,9 +163,9 @@ int main() {
 
                 // Map match.winner (1 or 2) to 0-based index (0 or 1) for the vector
                 int winnerIdx = match.winner - 1;
-
                 // Call the function we defined earlier
-                DrawWinnerDisplay(SW, bannerY, winnerIdx, players, assets, match.winTimer);
+                DrawWinnerDisplay(SW, bannerY, winnerIdx, players, assets, match.winTimer - 2.0f);
+
             }
             break;
         case STATE_LOAD:

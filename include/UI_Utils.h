@@ -81,6 +81,6 @@ struct PlayerInfo {
 };
 void DrawPauseOverlay(int sw, int sh, const MatchManager& match, const GameAssets& assets);
 void DrawMatchScreen(int screenWidth, int screenHeight, const MatchManager& match, const GameAssets& assets, const std::vector<PlayerInfo>& players);
-void DrawCaroBoard(const int board[BOARD_SIZE][BOARD_SIZE], float oX, float oY);
+void DrawCaroBoard(const MatchManager& match, float boardX, float boardY);
 void DrawWinnerDisplay(int screenWidth, float panelY, int winnerIdx, const std::vector<PlayerInfo>& players, const GameAssets& assets, float winTimer);
 #endif 

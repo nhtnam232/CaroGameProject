@@ -270,6 +270,34 @@ void UpdateMatchLogic(MatchManager& match, bool & backToMenu) {
                 match.isMatchOver = true;
                 match.winner = match.currentPlayer;
                 match.winTimer = 0.0f;
+
+                int dx[] = { 1, 0, 1, 1 };
+                int dy[] = { 0, 1, 1, -1 };
+
+                for (int i = 0; i < 4; i++) {
+                    int count = 1;
+                    int f = 1;
+                    while (true) {
+                        int nx = match.cursorX + dx[i] * f, ny = match.cursorY + dy[i] * f;
+                        if (nx >= 0 && nx < 15 && ny >= 0 && ny < 15 && match.board[nx][ny] == match.winner) { count++; f++; }
+                        else break;
+                    }
+                    int b = 1;
+                    while (true) {
+                        int nx = match.cursorX - dx[i] * b, ny = match.cursorY - dy[i] * b;
+                        if (nx >= 0 && nx < 15 && ny >= 0 && ny < 15 && match.board[nx][ny] == match.winner) { count++; b++; }
+                        else break;
+                    }
+
+                    if (count >= 5) {
+                        int startX = match.cursorX - dx[i] * (b - 1);
+                        int startY = match.cursorY - dy[i] * (b - 1);
+                        for (int k = 0; k < 5; k++) {
+                            match.flashingPieces[k] = { (float)(startX + dx[i] * k), (float)(startY + dy[i] * k) };
+                        }
+                        break; 
+                    }
+                }
             }
             else {
                 match.currentPlayer = (match.currentPlayer == 1) ? 2 : 1;
