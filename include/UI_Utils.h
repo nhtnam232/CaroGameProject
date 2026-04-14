@@ -3,13 +3,14 @@
 
 #include "raylib.h"
 #include<vector>
+#include<string.h>
+#include<string>
 #include"resources.h"
-
+#include"GameLogic.h"
 struct Button {
     Rectangle rect;
     const char* text;
 };
-
 //Color theme
 //COLOR helpers
 Color COLOR(unsigned char r, unsigned char g, unsigned char b);
@@ -31,9 +32,12 @@ const Color ColorShadow = COLORA(8, 4, 0, 115);
 const Color ColorHighlight = COLORA(255, 255, 255, 25);
 const Color ColorDeepBlueSolid = COLOR(30, 51, 255);
 const Color ColorPinkNeon = COLOR(255, 50, 180);
+const Color ColorRedNeon = COLORA(255, 50, 50, 255);
 const Color ColorBlueNeon = COLOR(0, 170, 255);
 const Color ColorCyanSolid = COLOR(100, 220, 255);
 const Color ColorLightGreenSolid = COLOR(150, 255, 100);
+const Color ColorLightGreen = COLORA(50, 255, 50, 255);
+const Color ColorLightYellow = COLORA(255, 200, 0, 255);
 //Glowing horizontal line
 void DrawGlowLine(float x1, float y, float x2, Color col);
 //Diamond shape
@@ -56,4 +60,27 @@ void DrawCard(Font font, float x, float y, const char* id, const char* name, con
 Rectangle DrawBaseMenu(int screenWidth, int screenHeight, const GameAssets& assets, const char* title);
 //Draw hint
 void DrawHint(int screenWidth, int screenHeight, float hintX, float hintY, float hintW, const char* hint, const GameAssets& assets);
+//Draw flip card used in selected mode
+void DrawFlipCard(float x, float y, float width, float height, const char* title, const char* description, Color accentColor, const GameAssets& assets, bool isSelected, bool isFlipped, float scaleX);
+//Draw step mode for user select game mode
+void DrawStepMode(int screenWidth, int screenHeight, const GameAssets& assets, int& selectedSlot, bool& backToMenu);
+//Draw page for choose opponent
+void DrawStepOpponent(int screenWidth, int screenHeight, const GameAssets& assets, int& selectedSlot, bool& backToMenu);
+//Draw Utils function for user input
+void DrawInputBox(float x, float y, float w, float h, const char* text, bool isActive);
+//Draw Page input player name
+void DrawStepEnterName(int screenWidth, int screenHeight, const GameAssets& assets, int opponentMode, char* p1Name, int& count1, char* p2Name, int& count2, int& activeField);
+//Draw Playing Screen
+
+struct PlayerInfo {
+    char name[16] = "\0";
+    int score = 0;
+    char symbol;
+    Color color;
+    bool isBot = false;
+};
+void DrawPauseOverlay(int sw, int sh, const MatchManager& match, const GameAssets& assets);
+void DrawMatchScreen(int screenWidth, int screenHeight, const MatchManager& match, const GameAssets& assets, const std::vector<PlayerInfo>& players);
+void DrawCaroBoard(const int board[BOARD_SIZE][BOARD_SIZE], float oX, float oY);
+void DrawWinnerDisplay(int screenWidth, float panelY, int winnerIdx, const std::vector<PlayerInfo>& players, const GameAssets& assets, float winTimer);
 #endif 

@@ -163,7 +163,7 @@ void DrawSettingsMenu(int screenWidth, int screenHeight, GameSettings& settings,
 
     // INPUT
     // ENTER → back
-    if (backAct && IsKeyPressed(KEY_ENTER)) {
+    if (backAct && IsKeyReleased(KEY_ENTER)) {
         backToMenu = true;
         if (assets.clickSound.stream.buffer != NULL)
             PlaySound(assets.clickSound);
