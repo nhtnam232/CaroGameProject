@@ -153,7 +153,7 @@ int main() {
             DrawMatchScreen(SW, SH, match, assets, players);
 
             // Overlay the winner banner when the game ends
-            if (match.isMatchOver && match.winner > 0 && match.winTimer >= 2.0f) {
+            if (match.isMatchOver  && match.winTimer >= 2.0f) {
                 // Dim the background slightly to focus on the announcement
                 DrawRectangle(0, 0, SW, SH, Fade(BLACK, 0.4f));
 
@@ -162,7 +162,7 @@ int main() {
                 float bannerY = (SH / 2.0f) - (panelH / 2.0f);
 
                 // Map match.winner (1 or 2) to 0-based index (0 or 1) for the vector
-                int winnerIdx = match.winner - 1;
+                int winnerIdx = match.winner;
                 // Call the function we defined earlier
                 DrawWinnerDisplay(SW, bannerY, winnerIdx, players, assets, match.winTimer - 2.0f);
 
