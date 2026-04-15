@@ -1,4 +1,4 @@
-#include "GameLogic.h"
+﻿#include "GameLogic.h"
 #include "raylib.h"
 
 
@@ -314,6 +314,12 @@ void UpdateMatchLogic(MatchManager& match, bool & backToMenu) {
     if (IsKeyPressed(KEY_T)) {
         match.isMatchOver = true;
         match.winner = 1;
+        match.winTimer = 0.0f;
+    }
+    // Quick debug trigger for testing draw
+    if (IsKeyPressed(KEY_F2)) {
+        match.isMatchOver = true;
+        match.winner = 0;
         match.winTimer = 0.0f;
     }
 }

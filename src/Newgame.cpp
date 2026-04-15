@@ -544,11 +544,21 @@ void DrawMatchScreen(int screenWidth, int screenHeight, const MatchManager& matc
 }
 //Draw notification of winner
 void DrawWinnerDisplay(int screenWidth, float panelY, int winnerIdx, const std::vector<PlayerInfo>& players, const GameAssets& assets, float winTimer) {
-    const PlayerInfo& winner = players[winnerIdx];
-
+    
+    PlayerInfo winner;
+    bool isDraw = (winnerIdx == 0);
+    if (!isDraw) {
+         winner = players[winnerIdx - 1];
+    }
+    else {
+        winner = players[winnerIdx];
+    }
     // Setup colors from winner data or fallbacks
-    Color accent = winner.color;
+
+    Color accent = isDraw ? GOLD : winner.color;
     if (accent.a == 0) accent = BLUE;
+    const char* displayName = isDraw ? "DRAW" : winner.name;
+
 
     // Main panel dimensions and positioning
     float panelW = 580.0f;
@@ -588,24 +598,31 @@ void DrawWinnerDisplay(int screenWidth, float panelY, int winnerIdx, const std::
 
     // Dynamic name scaling logic
     float namePulse = 52.0f * (1.0f + 0.05f * sinf(winTimer * 3.5f));
-    Vector2 nameSize = MeasureTextEx(assets.gameFont, winner.name, namePulse, 2);
+    Vector2 nameSize = MeasureTextEx(assets.gameFont, displayName, namePulse, 2);
     float tx = (float)screenWidth / 2.0f - nameSize.x / 2.0f;
     float ty = py + hh + 25.0f;
 
     // Render winner name with depth layers
-    DrawTextEx(assets.gameFont, winner.name, { tx + 4, ty + 4 }, namePulse, 2, Color{ 0, 0, 0, 150 });
-    DrawTextEx(assets.gameFont, winner.name, { tx + 1.5f, ty + 1.5f }, namePulse, 2, Color{ (unsigned char)(accent.r / 2), (unsigned char)(accent.g / 2), (unsigned char)(accent.b / 2), 200 });
-    DrawTextEx(assets.gameFont, winner.name, { tx, ty }, namePulse, 2, accent);
+    DrawTextEx(assets.gameFont, displayName, { tx + 4, ty + 4 }, namePulse, 2, Color{ 0, 0, 0, 150 });
+    DrawTextEx(assets.gameFont, displayName, { tx + 1.5f, ty + 1.5f }, namePulse, 2, Color{ (unsigned char)(accent.r / 2), (unsigned char)(accent.g / 2), (unsigned char)(accent.b / 2), 200 });
+    DrawTextEx(assets.gameFont, displayName, { tx, ty }, namePulse, 2, accent);
 
     // Victory sub-text announcement
     float winFS = 32.0f * (1.0f + 0.06f * sinf(winTimer * 4.5f));
-    Vector2 winSize = MeasureTextEx(assets.gameFont, "WINS", winFS, 2);
-    DrawTextEx(assets.gameFont, "WINS!", { (float)screenWidth / 2.0f - winSize.x / 2.0f, ty + 70.0f }, winFS, 2, Color{ 252, 215, 45, 255 });
+    const char* subText = isDraw ? "NO WINNER!" : "WINS!"; 
+    Vector2 winSize = MeasureTextEx(assets.gameFont, subText, winFS, 2);
+    DrawTextEx(assets.gameFont, subText, { (float)screenWidth / 2.0f - winSize.x / 2.0f, ty + 70.0f }, winFS, 2, Color{ 252, 215, 45, 255 });
 
     // Winning piece preview icon
     float circleY = ty + 130.0f;
-    DrawCircle((int)(screenWidth / 2.0f), (int)circleY, 22, (winnerIdx == 0) ? Color{ 30, 30, 30, 255 } : Color{ 240, 240, 240, 255 });
-    DrawCircleLines((int)(screenWidth / 2.0f), (int)circleY, 22, accent);
+    if (isDraw) {
+        DrawCircle((int)(screenWidth / 2.0f - 25), (int)circleY, 18, Color{ 30, 30, 30, 255 });
+        DrawCircle((int)(screenWidth / 2.0f + 25), (int)circleY, 18, Color{ 240, 240, 240, 255 });
+    }
+    else {
+        DrawCircle((int)(screenWidth / 2.0f), (int)circleY, 22, (winnerIdx == 1) ? Color{ 30, 30, 30, 255 } : Color{ 240, 240, 240, 255 });
+        DrawCircleLines((int)(screenWidth / 2.0f), (int)circleY, 22, accent);
+    }
 
     // Interaction prompts at the bottom
     float promptAlpha = 0.4f + 0.4f * sinf(winTimer * 2.0f);
