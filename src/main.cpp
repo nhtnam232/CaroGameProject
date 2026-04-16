@@ -99,6 +99,8 @@ int main() {
                 if (backToMenu) {
                     nextState = STATE_MENU;
                     backToMenu = false;
+                    memset(players[0].name, 0, sizeof(players[0].name));
+                    memset(players[1].name, 0, sizeof(players[1].name));
                 }
             }
             else {
