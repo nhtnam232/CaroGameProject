@@ -98,6 +98,7 @@ int main() {
                 UpdateMatchLogic(match, backToMenu);
                 if (backToMenu) {
                     nextState = STATE_MENU;
+                    backToMenu = false;
                 }
             }
             else {
@@ -118,19 +119,18 @@ int main() {
                         }
                         if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
                     }
+                    if (IsKeyPressed(KEY_ESCAPE)) {
+                        nextState = STATE_MENU;
+                        backToMenu = false;
+                        memset(players[0].name, 0, sizeof(players[0].name));
+                        memset(players[1].name, 0, sizeof(players[1].name));
+                        if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
+                    }
                 }
-                if (IsKeyPressed(KEY_ESCAPE)) {
-                    backToMenu = true;
-                    nextState = STATE_MENU;
-                    memset(players[0].name, 0, sizeof(players[0].name));
-                    memset(players[1].name, 0, sizeof(players[1].name));
-                    if (!gameSettings.isSfxMuted) PlaySound(assets.clickSound);
-                }
-
             }
         }
         else if (currentState == STATE_NEWGAME) {
-
+         
         }
         else if (currentState == STATE_EXIT) {
             break;
@@ -165,7 +165,6 @@ int main() {
                 int winnerIdx = match.winner;
                 // Call the function we defined earlier
                 DrawWinnerDisplay(SW, bannerY, winnerIdx, players, assets, match.winTimer - 2.0f);
-
             }
             break;
         case STATE_LOAD:

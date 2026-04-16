@@ -786,20 +786,27 @@ void DrawNewGameFlow(int screenWidth, int screenHeight, const GameAssets& assets
     }
     currentStep = nextStep;
 
+    if (startMatch) {
+        currentStep = STEP_CHOOSE_MODE;
+        selectedModeSlot = 0;
+        selectedOpponentSlot = 0;
+        selectedBotDiffSlot = 0;
+        letterCount1 = 0;
+        letterCount2 = 0;
+        activeField = 0;
+        memset(players[0].name, 0, 16);
+        memset(players[1].name, 0, 16);
+    }
     if (backToMenu) {
         currentStep = STEP_CHOOSE_MODE;
         selectedModeSlot = 0;
         selectedOpponentSlot = 0;
         selectedBotDiffSlot = 0;
-        
         letterCount1 = 0;
         letterCount2 = 0;
         activeField = 0;
-
         memset(players[0].name, 0, 16);
         memset(players[1].name, 0, 16);
-
-        backToMenu = false;
         return;
     }
 }
