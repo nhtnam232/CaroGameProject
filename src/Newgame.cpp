@@ -286,10 +286,17 @@ void DrawStepEnterName(int screenWidth, int screenHeight, const GameAssets& asse
     // Auto-fill BOT name if mode is BOT
     if (opponentMode == 0) {
         if (count2 == 0) {
-            strcpy_s(p2Name, sizeof(p2Name), "BOT");
-            count2 = strlen(p2Name);
+            strcpy_s(p2Name, 16, "BOT");
+            count2 = 3;
+            activeField = 0;
         }
         if (activeField == 1) activeField = 0;
+    }
+    else {
+        if (strcmp(p2Name, "BOT") == 0) {
+            memset(p2Name, 0, 16);
+            count2 = 0;
+        }
     }
     char* currentName = (activeField == 0) ? p1Name : p2Name;
     int* currentCount = (activeField == 0) ? &count1 : &count2;
@@ -314,7 +321,9 @@ void DrawStepEnterName(int screenWidth, int screenHeight, const GameAssets& asse
     }
 
     if (IsKeyPressed(KEY_TAB)) {
-        activeField = (activeField + 1) % 2;
+        if (opponentMode != 0) {
+            activeField = (activeField + 1) % 2;
+        }
     }
 
     // Draw input box
@@ -332,7 +341,9 @@ void DrawStepEnterName(int screenWidth, int screenHeight, const GameAssets& asse
     DrawTextEx(assets.gameFont, p2Title, { boxX, box2Y }, 20, 1, (activeField == 1) ? ColorPinkNeon : GRAY);
 
     DrawInputBox(boxX, box2Y + 25, boxW, boxH, p2Name, (activeField == 1));
-    DrawTextEx(assets.gameFont, "[TAB] Switch Player", { boxX, box2Y + 90 }, 16, 1, ColorGoldAlpha);
+    if (opponentMode != 0) {
+        DrawTextEx(assets.gameFont, "[TAB] Switch Player", { boxX, box2Y + 90 }, 16, 1, ColorGoldAlpha);
+    }
     DrawTextEx(assets.gameFont, "Maximum number of characters: 15", { boxX, box2Y + 110 }, 16, 1, ColorGoldAlpha);
 }
 void DrawCaroBoard(const MatchManager& match, float boardX, float boardY)
@@ -794,8 +805,6 @@ void DrawNewGameFlow(int screenWidth, int screenHeight, const GameAssets& assets
         letterCount1 = 0;
         letterCount2 = 0;
         activeField = 0;
-        memset(players[0].name, 0, 16);
-        memset(players[1].name, 0, 16);
     }
     if (backToMenu) {
         currentStep = STEP_CHOOSE_MODE;
