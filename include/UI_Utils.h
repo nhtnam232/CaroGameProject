@@ -79,6 +79,7 @@ struct PlayerInfo {
     Color color;
     bool isBot = false;
 };
+void DrawPlayerInfoPanel(float ipX, float ipY, float ipW, float ipH, const MatchManager& match, const GameAssets& assets, const std::vector<PlayerInfo>& players);
 void DrawPauseOverlay(int sw, int sh, const MatchManager& match, const GameAssets& assets);
 void DrawMatchScreen(int screenWidth, int screenHeight, const MatchManager& match, const GameAssets& assets, const std::vector<PlayerInfo>& players);
 void DrawCaroBoard(const MatchManager& match, float boardX, float boardY);
