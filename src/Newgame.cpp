@@ -491,8 +491,6 @@ void DrawPlayerInfoPanel(float ipX, float ipY, float ipW, float ipH, const Match
     char scoreText[64];
     std::string p1ShortName = (players[0].name[0] != '\0') ? players[0].name : "P1";
     std::string p2ShortName = (players[1].name[0] != '\0') ? players[1].name : "P2";
-    if (p1ShortName.length() > 5) p1ShortName = p1ShortName.substr(0, 5) + ".";
-    if (p2ShortName.length() > 5) p2ShortName = p2ShortName.substr(0, 5) + ".";
 
     snprintf(scoreText, sizeof(scoreText), "%s: %d   %s: %d", p1ShortName.c_str(), p1Count, p2ShortName.c_str(), p2Count);
     Vector2 scoreSize = MeasureTextEx(assets.gameFont, scoreText, 15, 1);
